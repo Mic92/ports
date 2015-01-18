@@ -3,8 +3,8 @@ PORTVERSION=	1.5.0
 CATEGORIES=	devel rubygems
 MASTER_SITES=	RG
 
-MAINTAINER=	joerg@higgsboson.tk
-COMMENT=	A package for manipulating network addresses.
+MAINTAINER=	ruby@FreeBSD.org
+COMMENT=	A ruby gem for manipulating network addresses.
 
 LICENSE=	RUBY
 
