@@ -20,12 +20,11 @@ tincd_enable=${tincd_enable:-"NO"}
 
 name="tincd"
 rcvar="tincd_enable"
-command="%%PREFIX%%/sbin/tincd"
+command="%%PREFIX%%/sbin/tinc"
 start_cmd="tincd_start"
 stop_cmd="tincd_stop"
 reload_cmd="tincd_reload"
 extra_commands="reload"
-procname=${command:-tincd}
 
 load_rc_config $name
 
@@ -34,12 +33,12 @@ tincd_start()
 	if test -z "${tincd_cfg}"
 	then
 		echo "Starting tincd"
-		$command
+		$command start
 	else
 		for cfg in ${tincd_cfg}
 		do
 			echo "Starting tincd for: ${cfg}"
-			$command -n $cfg
+			$command -n $cfg start
 		done
 	fi
 # code deliberately borrowed from /etc/rc.d/netif
@@ -53,13 +52,13 @@ tincd_stop()
 	if test -z "${tincd_cfg}"
 	then
 		echo "Stopping tincd"
-		$command -k
+		$command stop
 	else
 		echo "Stopping tincd for: "
 		for cfg in $tincd_cfg
 		do
 			echo "Stopping tincd for: ${cfg}"
-			$command -n $cfg -k
+			$command -n $cfg stop
 		done
 	fi
 }
@@ -68,12 +67,12 @@ tincd_reload()
 	if test -z "${tincd_cfg}"
 	then
 		echo "Sending HUP to tincd"
-		$command --kill=HUP
+		$command reload
 	else
 		for cfg in $tincd_cfg
 		do
 			echo "Sending HUP to tincd for: ${cfg}"
-			$command -n $cfg --kill=HUP
+			$command -n $cfg reload
 		done
 	fi
 }
