@@ -1,0 +1,25 @@
+--- examples/s6-svscanboot.orig	2011-06-20 12:13:01.000000000 +0000
++++ examples/s6-svscanboot	2015-02-05 18:23:29.000000000 +0000
+@@ -1,8 +1,14 @@
+-#!/command/execlineb -P
+-
+-/command/exec -c
+-/command/redirfd -wnb 1 /service/s6-svscan-log/fifo
+-/command/fdmove -c 2 1
+-/command/s6-envdir -I /service/.s6-svscan/env
+-/command/exec -a s6-svscan
+-/command/s6-svscan -t0 /service
++#!/usr/local/bin/execlineb -S0
++define SCANROOT $1
++/usr/local/bin/exec -c
++/usr/local/bin/foreground { 
++/usr/local/bin/if -n {
++/bin/test -p ${SCANROOT}/s6-svscan-log/fifo }
++mkfifo -m 0622 ${SCANROOT}/s6-svscan-log/fifo 
++}
++/usr/local/bin/foreground { /usr/sbin/chown nobody:nogroup ${SCANROOT}/s6-svscan-log/fifo }
++/usr/local/bin/redirfd -wnb 1 ${SCANROOT}/s6-svscan-log/fifo
++/usr/local/bin/fdmove -c 2 1
++/usr/local/bin/s6-envdir -I ${SCANROOT}/.s6-svscan/env
++/usr/local/bin/exec -a s6-svscan
++/usr/local/bin/s6-svscan -t0 ${SCANROOT}

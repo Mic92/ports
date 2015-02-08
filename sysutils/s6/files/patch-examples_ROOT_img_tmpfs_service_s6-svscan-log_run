@@ -1,0 +1,8 @@
+--- examples/ROOT/img/tmpfs/service/s6-svscan-log/run.orig	2011-06-27 21:28:24 UTC
++++ examples/ROOT/img/tmpfs/service/s6-svscan-log/run
+@@ -1,4 +1,4 @@
+-#!/command/execlineb -P
++#!/usr/local/bin/execlineb -P
+ redirfd -w 2 /dev/console
+ redirfd -rnb 0 fifo
+ s6-setuidgid nobody
